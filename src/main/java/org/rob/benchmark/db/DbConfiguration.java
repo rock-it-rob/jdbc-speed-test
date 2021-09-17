@@ -20,12 +20,18 @@ public class DbConfiguration
     private String user;
     private String password;
     private String table;
+    private DataSource dataSource;
 
-    public DataSource connect()
+    public void connect()
     {
         log.info(String.format("Connecting on: %s with: %s", url, user));
 
-        return new DriverManagerDataSource(url, user, password);
+        dataSource = new DriverManagerDataSource(url, user, password);
+    }
+
+    public DataSource getDataSource()
+    {
+        return dataSource;
     }
 
     public String getUrl()

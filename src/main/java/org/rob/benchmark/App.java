@@ -33,7 +33,8 @@ public class App implements CommandLineRunner
 
     private void runBenchmarks()
     {
-        final DataSource dataSource = dbConfiguration.connect();
+        new Metric("Connecting to DB", dbConfiguration::connect).go();
+        final DataSource dataSource = dbConfiguration.getDataSource();
         final Dao dao = new Dao(dataSource);
 
         new Metric("Querying table", () -> dao.totalRecords(dbConfiguration.getTable())).go();
