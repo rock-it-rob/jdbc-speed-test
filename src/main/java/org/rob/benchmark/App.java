@@ -37,6 +37,10 @@ public class App implements CommandLineRunner
         final DataSource dataSource = dbConfiguration.getDataSource();
         final Dao dao = new Dao(dataSource);
 
+        // Get a count of every record in the table.
         new Metric("Querying table", () -> dao.totalRecords(dbConfiguration.getTable())).go();
+
+        // Iterate over each record in the table.
+        new Metric("Reading each record", () -> dao.readEachRecord(dbConfiguration.getTable())).go();
     }
 }
