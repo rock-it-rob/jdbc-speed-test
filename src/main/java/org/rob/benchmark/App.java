@@ -28,19 +28,19 @@ public class App implements CommandLineRunner
     @Override
     public void run(String... args) throws Exception
     {
-        new Metric("Benchmark Application", this::runBenchmarks).go();
+        Metric.go("Benchmark Application", this::runBenchmarks);
     }
 
     private void runBenchmarks()
     {
-        new Metric("Connecting to DB", dbConfiguration::connect).go();
+        Metric.go("Connecting to DB", dbConfiguration::connect);
         final DataSource dataSource = dbConfiguration.getDataSource();
         final Dao dao = new Dao(dataSource);
 
         // Get a count of every record in the table.
-        new Metric("Querying table", () -> dao.totalRecords(dbConfiguration.getTable())).go();
+        Metric.go("Querying table", () -> dao.totalRecords(dbConfiguration.getTable()));
 
         // Iterate over each record in the table.
-        new Metric("Reading each record", () -> dao.readEachRecord(dbConfiguration.getTable())).go();
+        Metric.go("Reading each record", () -> dao.readEachRecord(dbConfiguration.getTable()));
     }
 }

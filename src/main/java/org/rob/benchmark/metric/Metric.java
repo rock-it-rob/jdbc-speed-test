@@ -9,50 +9,25 @@ import java.time.LocalDateTime;
 /**
  * Metric measures how long something takes.
  */
-public class Metric
+public abstract class Metric
 {
     private static final Logger log = LoggerFactory.getLogger(Metric.class);
-
-    private final String name;
-    private LocalDateTime begin;
-    private LocalDateTime end;
-    private final Runnable runnable;
-
-    public Metric(String name, Runnable runnable)
-    {
-        this.name = name;
-        this.runnable = runnable;
-    }
-
-    private void start()
-    {
-        begin = LocalDateTime.now();
-        log.debug("Beginning: " + name);
-    }
-
-    private void end()
-    {
-        end = LocalDateTime.now();
-        log.debug("Ending: " + name);
-    }
-
-    public String getDuration()
-    {
-        return String.format("Duration of %s: %s", name, formatDuration(Duration.between(begin, end)));
-    }
 
     /**
      * Call to do the action.
      */
-    public void go()
+    public static void go(String name, Runnable runnable)
     {
-        start();
+        LocalDateTime begin = LocalDateTime.now();
+        log.debug("Beginning: " + name);
         runnable.run();
-        end();
-        log.info(getDuration());
+        LocalDateTime end = LocalDateTime.now();
+        log.debug("Ending: " + name);
+        final String duration = String.format("Duration of %s: %s", name, formatDuration(Duration.between(begin, end)));
+        log.info(String.format("Duration of %s: %s", name, formatDuration(Duration.between(begin, end))));
     }
 
-    private String formatDuration(Duration d)
+    private static String formatDuration(Duration d)
     {
         return d.toString();
     }

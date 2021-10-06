@@ -14,9 +14,9 @@ public class Dao
 
     public Dao(DataSource dataSource)
     {
-        new Metric("Creating JdbcTemplate", () ->
+        Metric.go("Creating JdbcTemplate", () ->
                 jdbcTemplate = new JdbcTemplate(dataSource)
-        ).go();
+        );
     }
 
     private JdbcTemplate jdbcTemplate;
